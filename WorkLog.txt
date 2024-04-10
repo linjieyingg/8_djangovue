@@ -1,0 +1,2 @@
+4/9 - Jieying: Set up django + vue
+4/9 - Tyler: Database diagram
