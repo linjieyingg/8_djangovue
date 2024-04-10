@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="{% url 'reminders:reminder_list' %}">Reminder list</a><br/>
+<a href="{% url 'reminders:reminder_update' object.id %}">Update Reminder</a><br/>
+<a href="{% url 'reminders:reminder_delete' object.id %}">Delete Reminder</a><br/>
+<h1>{{ object.name }}</h1>
+Tags:<br/>
+{% for tag in object.tags.all %}
+{{tag.name}}<br/>
+{% endfor %}
+<br/>
+{% comment %} Running time: {{object.running_time|time:"H:i:s"}}<br/> {% endcomment %}
+Description: {{object.description}}<br/>
+Release date: {{object.date|date: "Y-m-d"}}<br/>
+
+{% endblock content %}

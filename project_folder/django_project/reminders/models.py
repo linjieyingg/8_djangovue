@@ -17,6 +17,8 @@ class Tag(models.Model):
 class Reminder(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
+    include = models.BooleanField(default=False)
+    time = models.BooleanField(default=True)
     tags = models.ManyToManyField(Tag)
     date = models.DateTimeField()
 

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="{% url 'reminders:reminder_create' %}">New reminder</a><br/><br/>
+
+<h4> Reminders: </h4>
+{% if  reminder in object_list %}
+
+{% for reminder in object_list %}
+    <a href="{% url 'reminders:reminder_detail' reminder.id %}">{{ reminder.name }}</a>
+    <a href="{% url 'reminders:reminder_detail_bis' reminder.id %}">{{reminder.name}}</a><br/>
+{% endfor %}
+
+{% else %}
+No reminders yet. Add a <a href="{% url 'reminders:reminder_create' %}">reminder</a>
+{% endif %}
+
+{% endblock content %}

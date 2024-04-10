@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load django_vite %}
+
+{% block content %}
+    <div id="app">
+        <app></app>
+    </div>
+{% endblock content %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+    var ext_reminder_id = {{ reminder_id }}
+    var ext_reminder_detail_js_url = '{% url 'reminders:reminder_detail_js' reminder_id %}'
+    var ext_reminder_list_url = '{% url 'reminders:reminder_list'  %}'
+    var ext_reminder_update_url = '{% url 'reminders:reminder_update' reminder_id %}'
+    var ext_reminder_delete_url = '{% url 'reminders:reminder_delete' reminder_id %}'
+    </script>
+
+    {% vite_asset 'src/apps/reminder_show/reminder_show.js' %}
+{% endblock js %}

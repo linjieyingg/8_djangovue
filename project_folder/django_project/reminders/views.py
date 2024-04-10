@@ -28,8 +28,8 @@ class TagCreateView(CreateView):
                 tag_name=self.object.name))
         return response
 
-    # def get_success_url(self):
-    # 	return reverse_lazy("reminders:tag_detail", args=[self.object.id])
+    def get_success_url(self):
+    	return reverse_lazy("reminders:reminders_list", args=[self.object.id])
 
 class TagUpdateView(UpdateView):
     model = Tag
@@ -79,7 +79,7 @@ class ReminderCreateView(CreateView):
 
 class ReminderUpdateView(UpdateView):
     model = Reminder
-    fields = ['name', 'tags', 'description', 'date']
+    fields = ['name', 'include', 'tags', 'description', 'date']
     
     def form_valid(self, form):
         response = super().form_valid(form)

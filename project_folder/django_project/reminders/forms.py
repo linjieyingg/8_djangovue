@@ -5,7 +5,7 @@ from .models import Reminder
 class ReminderForm(forms.ModelForm):
     class Meta:
         model = Reminder
-        fields = ['name', 'tags', 'description', 'date']
+        fields = ['name', 'include', 'tags', 'description', 'date']
         widgets = {
             'date': forms.DateInput()
         }
