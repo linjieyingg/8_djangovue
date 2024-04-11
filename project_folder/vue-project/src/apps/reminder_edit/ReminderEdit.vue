@@ -20,21 +20,21 @@
         <!-- <form method="post" class="form"> -->
             <input type="hidden" name="csrfmiddlewaretoken" v-bind:value="csrf_token">
             <p>
-                <label for="id_name">Name: </label>
-                <input type="text" name="name" value="Matrix" maxlength="100"
+                <label for="id_name">Reminder Name: </label>
+                <input type="text" name="name" value="" maxlength="100"
                 required="" id="id_name">
             </p>
-            <p>
+            <!-- <p>
                 <label for="id_running_time">Running time: </label>
                 <input type="hidden" name="running_time" :value="get_time_string" required=""
                 id="id_running_time">
                 <VueDatePicker style="display:inline-block;width:
                 250px;padding-bottom:10px;padding-left:10px" v-model="time"
                 :time-picker="true"  enable-seconds></VueDatePicker>
-            </p>
+            </p> -->
             <p>
                 <label for="id_tags">Tags:</label>
-                <select hidden name="tags" required="" id="id_tags" multiple="">
+                <select hidden name="tags"  id="id_tags" multiple="">
                     <option v-for="tag in tag_list" :value="tag.id" selected=""></option>
                 </select>
                 <multiselect v-model="tag_list" :options="tag_list_source" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Choose the tags" label="name" track-by="name" :preselect-first="true" style="display:inline-block;width: 300px;padding-bottom:10px;padding-left:10px">
@@ -47,7 +47,7 @@
                 maxlength="200" required="" id="id_director">
             </p> -->
             <p>
-                <label for="id_date">Date: </label>
+                <label for="id_date">Date:  </label>
                 <input type="hidden" name="date" :value="get_date_string" required=""
                 id="id_date">
                 <VueDatePicker  v-model="date" format="yyyy-MM-dd" value="date" style="width:250px;display: inline-block;" :enable-time-picker="false"></VueDatePicker>
@@ -83,7 +83,7 @@ export default {
             form_error: [],
 	    	form_updated: "",
             update_bis_url: (window.ext_update_bis_url != undefined) ? window.ext_update_bis_url : null,
-            actor_list: (window.ext_reminder_dict != undefined) ? window.ext_reminder_dict.tags : [],
+            tag_list: (window.ext_reminder_dict != undefined) ? window.ext_reminder_dict.tags : [],
         }
     },
     methods: {
@@ -147,12 +147,11 @@ export default {
             form.setAttribute('method', 'post');
             let form_data = {
                 'csrfmiddlewaretoken': this.csrf_token,
-                'name': this.movie_dico.name,
-                'running_time': this.get_time_string,
-                'director': this.movie_dico.director,
-                'release_date': this.get_date_string,
+                'name': this.reminder_dico.name,
+                'description': this.reminder_dico.description,
+                'date': this.get_date_string,
             }
-            console.log('actor_list', this.actor_list)
+            console.log('tag_list', this.tag_list)
             console.log("form_data", form_data)
             for (var key in form_data) {
                 var html_field = document.createElement('input')
@@ -161,18 +160,18 @@ export default {
                 html_field.setAttribute('value', form_data[key])
                 form.appendChild(html_field)
             }
-            var actor_field = document.createElement('select')
-            actor_field.setAttribute('name', 'actors')
-            actor_field.setAttribute('id', 'id_actors')
-            actor_field.setAttribute('multiple', '')
-            for (var actor of this.actor_list) {
-                console.log('actor', actor)
+            var tag_field = document.createElement('select')
+            tag_field.setAttribute('name', 'tag')
+            tag_field.setAttribute('id', 'id_tag')
+            tag_field.setAttribute('multiple', '')
+            for (var tag of this.tag_list) {
+                console.log('tag', tag)
                 var option_field = document.createElement('option')
-                option_field.setAttribute('value', actor.id)
+                option_field.setAttribute('value', tag.id)
                 option_field.setAttribute('selected', '')
-                actor_field.appendChild(option_field)
+                tag_field.appendChild(option_field)
             }
-            form.appendChild(actor_field)
+            form.appendChild(tag_field)
             document.body.appendChild(form);
             form.submit()
         },
@@ -197,14 +196,14 @@ export default {
                 return null
             }
         },
-        timify(string){
-            let split = string.split(':')
-            return {
-                'hours': split[0],
-                'minutes': split[1],
-                'seconds': split[2]
-            }
-        },
+        // timify(string){
+        //     let split = string.split(':')
+        //     return {
+        //         'hours': split[0],
+        //         'minutes': split[1],
+        //         'seconds': split[2]
+        //     }
+        // },
         datify(string){
             let dat = new Date(string)
             const offset = dat.getTimezoneOffset()

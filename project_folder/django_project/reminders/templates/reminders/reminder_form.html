@@ -4,11 +4,10 @@
 {% block content %}
 <a href="{% url 'reminders:reminder_list' %}">Reminders list</a><br/><br/>
 
-    <form method="post">    {% csrf_token %}
+    {% comment %}  <form method="post">    {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Save">
-    </form>
-    <br><br>
+    </form> {% endcomment %}
     <div id="app">
         <app></app>
     </div>
