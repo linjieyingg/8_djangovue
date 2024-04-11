@@ -17,12 +17,11 @@ class Tag(models.Model):
 class Reminder(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
-    include = models.BooleanField(default=False)
-    time = models.BooleanField(default=True)
+    homework = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag)
     date = models.DateTimeField()
 
     class Meta:
-        ordering = ['name']
+        ordering = ['date']
         
         
