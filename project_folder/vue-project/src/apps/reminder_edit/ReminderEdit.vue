@@ -46,7 +46,7 @@
                 <VueDatePicker  v-model="date" format="yyyy-MM-dd HH:mm" value="date" style="width:250px;display: inline-block;" :min="new Date().toISOString().substr(0, 10)"></VueDatePicker>
             </p>
             <button type="submit" class="btn btn-primary"
-            @click.prevent="submit_form_fetch"
+            @click.prevent="submit_form"
             :disabled="submitting_form">
                 Submit
             </button>
@@ -71,7 +71,7 @@ export default {
             csrf_token: window.ext_csrf_token,
             form: window.ext_form,
             reminder_dico: window.ext_reminder_dict,
-            title: this.reminder_dico,
+            title: this.reminder_dico.name,
     	    tag_list_source: (window.ext_tag_list != undefined) ? window.ext_tag_list: [],
             homework_tag_source: [],
             chore_tag_source: [],
@@ -138,6 +138,7 @@ export default {
             console.log(this.form_error)
     	},
         submit_form(){
+            console.log(this.title)
             if (this.submitting_form === true) {
             return;
             }
@@ -146,7 +147,7 @@ export default {
             form.setAttribute('method', 'post');
             let form_data = {
                 'csrfmiddlewaretoken': this.csrf_token,
-                'name': this.reminder_dico.name,
+                'name': this.reminder_dico,
                 'description': this.reminder_dico.description,
                 'date': this.get_date_string,
             }

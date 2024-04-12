@@ -110,7 +110,7 @@ class ReminderUpdateView(UpdateView):
     # comment the following line to show the error about not having an
     # success_url
     def get_success_url(self):
-        return reverse_lazy("remidners:reminder_detail", args=[self.object.id])
+        return reverse_lazy("reminders:reminder_detail", args=[self.object.id])
 
 class ReminderDeleteView(DeleteView):
     model = Reminder

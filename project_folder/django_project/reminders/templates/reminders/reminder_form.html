@@ -3,24 +3,26 @@
 {% block content %}
 <a href="{% url 'reminders:reminder_list' %}">Reminders list</a><br/><br/>
 
-    <form method="post">    {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save">
-    </form> 
+
     <div id="app">
         <app></app>
     </div>
+
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save">
+        </form>
 {% endblock content %}
 
-{% comment %} {% block js %}
+{% block js %}
     {{ block.super }}
     <script>
         var ext_csrf_token = '{{ csrf_token }}'
         var ext_form = `{{form.as_p | safe}}`
         var ext_reminder_dict = {{ reminder_dict | safe }}
         var ext_tag_list = {{ tag_list | safe }}
-        var ext_update_bis_url = '{% url 'reminders:reminder_update_bis' object.id %}'
+        {% comment %} var ext_update_bis_url = '{% url 'reminders:reminder_update_bis' object.id %}' {% endcomment %}
     </script>
     {% vite_hmr_client %}
     {% vite_asset 'src/apps/reminder_edit/reminder_edit.js' %} 
-{% endblock js %}{% endcomment %}
+{% endblock js %}
