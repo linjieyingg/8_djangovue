@@ -30,8 +30,29 @@
                 <select hidden name="tags"  id="id_tags" multiple="">
                     <option v-for="tag in tag_list" :value="tag.id" selected=""></option>
                 </select>
-                <multiselect v-model="tag_list" :options="tag_list_source" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Choose the tags" label="name" track-by="name" :preselect-first="true" style="display:inline-block;width: 300px;padding-bottom:10px;padding-left:10px">
-                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} options selected</span></template>
+                <multiselect
+                    v-model="tag_list"
+                    :options="tag_list_source"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Choose the tags"
+                    label="name"
+                    track-by="name"
+                    :preselect-first="true"
+                    style="
+                    display: inline-block;
+                    width: 300px;
+                    padding-bottom: 10px;
+                    padding-left: 10px;
+                    "
+                >
+                        <template slot="selection" slot-scope="{ values, search, isOpen }"
+                    ><span class="multiselect__single" v-if="values.length" v-show="!isOpen"
+                        >{{ values.length }} options selected</span
+                    ></template
+                    >
                 </multiselect>
             </p>
             <p>
