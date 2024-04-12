@@ -79,6 +79,7 @@ class ReminderCreateView(CreateView):
 
 class ReminderUpdateView(UpdateView):
     model = Reminder
+    template_name_suffix = '_edit'
     fields = ['name', 'homework', 'tags', 'description', 'date']
     
     def form_valid(self, form):
