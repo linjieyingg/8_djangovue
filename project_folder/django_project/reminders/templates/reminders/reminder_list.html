@@ -4,15 +4,15 @@
 <a href="{% url 'reminders:reminder_create' %}">New reminder</a><br/><br/>
 
 <h4> Reminders: </h4>
-{% if  reminder in object_list %}
+{% comment %} {% if  reminder in object_list %} {% endcomment %}
 
 {% for reminder in object_list %}
-    <a href="{% url 'reminders:reminder_detail' reminder.id %}">{{ reminder.name }}</a>
-    <a href="{% url 'reminders:reminder_detail_bis' reminder.id %}">{{reminder.name}}</a><br/>
+    {% comment %} <a href="{% url 'reminders:reminder_detail' reminder.id %}">{{ reminder.name }}</a> {% endcomment %}
+    <a href="{% url 'reminders:reminder_detail_bis' reminder.id %}">{{reminder.name}}</a> - {{reminder.description}} <br/>
 {% endfor %}
 
-{% else %}
+{% comment %} {% else %}
 No reminders yet. Add a <a href="{% url 'reminders:reminder_create' %}">reminder</a>
-{% endif %}
+{% endif %} {% endcomment %}
 
 {% endblock content %}

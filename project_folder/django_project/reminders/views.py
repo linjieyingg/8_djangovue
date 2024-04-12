@@ -18,7 +18,7 @@ from .forms import ReminderForm
 
 class TagCreateView(CreateView):
     model = Tag
-    fields = ['name']
+    fields = ['name', 'homework']
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -29,11 +29,11 @@ class TagCreateView(CreateView):
         return response
 
     def get_success_url(self):
-    	return reverse_lazy("reminders:reminders_list", args=[self.object.id])
+    	return reverse_lazy("reminders:reminder_list", args=[self.object.id])
 
 class TagUpdateView(UpdateView):
     model = Tag
-    fields = ['name']
+    fields = ['name', 'homework']
     
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -79,7 +79,8 @@ class ReminderCreateView(CreateView):
 
 class ReminderUpdateView(UpdateView):
     model = Reminder
-    fields = ['name', 'include', 'tags', 'description', 'date']
+    template_name_suffix = '_edit'
+    fields = ['name', 'homework', 'tags', 'description', 'date']
     
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -97,7 +98,7 @@ class ReminderUpdateView(UpdateView):
        )
        tags = reminder_dico["tags"]
        reminder_tag_list = []
-       for tag in tag:
+       for tag in tags:
            reminder_tag_list.append({"id": tag.id, "name": tag.name})
        reminder_dico["tags"] = reminder_tag_list
        tag_list = list(Tag.objects.all().values())

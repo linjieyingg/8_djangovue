@@ -3,10 +3,10 @@
 {% block content %}
 <a href="{% url 'reminders:reminder_list' %}">Reminders list</a><br/><br/>
 
-    <form method="post">    {% csrf_token %}
+    {% comment %} <form method="post">    {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Save">
-    </form> 
+    </form>  {% endcomment %}
     <div id="app">
         <app></app>
     </div>
@@ -19,7 +19,9 @@
         var ext_form = `{{form.as_p | safe}}`
         var ext_reminder_dict = {{ reminder_dict | safe }}
         var ext_tag_list = {{ tag_list | safe }}
+        {% comment %} var ext_update_bis_url = '{% url 'reminders:reminder_create'  %}' {% endcomment %}
+        var ext_update_bis_url = '{% url 'reminders:reminder_update_bis' object.id %}'
     </script>
     {% vite_hmr_client %}
-    {% vite_asset 'src/apps/reminder_create/reminder_create.js' %} 
+    {% vite_asset 'src/apps/reminder_edit/reminder_edit.js' %}
 {% endblock js %}
