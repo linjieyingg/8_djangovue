@@ -1,15 +1,5 @@
 <template>
     <div>
-        <div v-if="form_error">
-            <ul>
-                <li v-for="(error, index) in form_error">
-                    {{error}}
-                </li>
-            </ul>
-        </div>
-        <div v-if="form_updated">
-            {{ form_updated }}
-        </div><br>
         <form method="post" class="form">
             <input type="hidden" name="csrfmiddlewaretoken" v-bind:value="csrf_token">
             <p>
@@ -39,7 +29,7 @@
             </p>
             <p>
                 <label for="id_description">Description: </label>&nbsp;
-                <input type="hidden" :value="get_description" name="description" value=""
+                <input type="hidden" :value="description" name="description" value=""
                 maxlength="5000" required="" id="id_description" >
                 <textarea v-model="description" name="description"> </textarea>
             </p>
@@ -56,31 +46,49 @@
     <br><br>
 </template>
 <script>
+import VueDatePicker from '@vuepic/vue-datepicker'; 
+import '@vuepic/vue-datepicker/dist/main.css'
+import { resolveTransitionHooks } from 'vue';
+import Multiselect from 'vue-multiselect'
     export default {
         name: 'App',
         components: {
+            VueDatePicker,
+            Multiselect,
         },
         data: function() {
             return {
+            tag: null,
             csrf_token: window.ext_csrf_token,
             description: null,
             form: window.ext_form,
             reminder_dico: window.ext_reminder_dict,
-            title: this.reminder_dico,
+            title: null,
     	    tag_list_source: (window.ext_tag_list != undefined) ? window.ext_tag_list: [],
             homework_tag_source: [],
             chore_tag_source: [],
             date: null,
-            submitting_form: false,
-            form_error: [],
             types: ['Homework', 'Chore'],
             type: null,
-	    	form_updated: "",
-            update_bis_url: window.ext_update_bis_url,
-            tag_list: (window.ext_reminder_dict != undefined && window.ext_reminder_dict != null) ? window.ext_reminder_dict.tags : [],
+            tag_list: (window.ext_tag_list != undefined && window.ext_tag_list != null) ? window.ext_tag_list : [],
             }
         },
         methods: {
+            convert_date_to_string(dato){
+                const offset = dato.getTimezoneOffset()
+                dato = new Date(dato.getTime() - (offset*60*1000))
+                console.log('date', dato, dato.toISOString())
+                return dato.toISOString().split('T')[0]
+            },
+        },
+        computed: {
+            get_date_string() {
+                if (this.date == null) {
+                    return ""
+                } else {
+                    return this.convert_date_to_string(this.date)
+                }
+            },
         },
     }
 </script>
