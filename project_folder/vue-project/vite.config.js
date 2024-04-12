@@ -17,6 +17,10 @@ outDir: backendPath + '/core/static/vite/',
 rollupOptions: {
 input: {
 vue_reminder_edit: "./src/apps/reminder_edit/reminder_edit.js",
+<<<<<<< HEAD
+=======
+vue_reminder_create:"./src/apps/reminder_create/reminder_create.js",
+>>>>>>> main
 },
 },
 },
