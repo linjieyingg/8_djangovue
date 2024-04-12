@@ -17,7 +17,7 @@ class Tag(models.Model):
 
 class Reminder(models.Model):
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length=500)
+    description = models.CharField(max_length=5000)
     homework = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag)
     date = models.DateTimeField()
