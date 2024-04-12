@@ -7,6 +7,7 @@ class Tag(models.Model):
     # following line
     # id = models.SmallIntegerField(auto_increment=True, primary_key=True)
     name = models.CharField(max_length=100, unique=True)
+    homework = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['name']
@@ -22,6 +23,6 @@ class Reminder(models.Model):
     date = models.DateTimeField()
 
     class Meta:
-        ordering = ['date']
+        ordering = ['name']
         
         

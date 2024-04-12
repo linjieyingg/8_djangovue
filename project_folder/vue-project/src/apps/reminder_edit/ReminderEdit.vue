@@ -1,12 +1,5 @@
 <template>
     <div>
-        This is the page where we are going to edit reminder in vuejs, this is cool
-        This is the form coming from django, displayed in vue
-    </div><br>
-    <div>
-        <br>
-        With fetch this time
-        <br>
         <div v-if="form_error">
             <ul>
                 <li v-for="(error, index) in form_error">
@@ -20,18 +13,18 @@
         <!-- <form method="post" class="form"> -->
             <input type="hidden" name="csrfmiddlewaretoken" v-bind:value="csrf_token">
             <p>
-                <label for="id_name">Reminder Name: </label>
-                <input type="text" name="name" value="" maxlength="100"
+                <label for="id_name">Reminder Title: </label> &nbsp;
+                <input type="text" name="name" v-model="title" maxlength="100"
                 required="" id="id_name">
             </p>
-            <!-- <p>
-                <label for="id_running_time">Running time: </label>
-                <input type="hidden" name="running_time" :value="get_time_string" required=""
-                id="id_running_time">
-                <VueDatePicker style="display:inline-block;width:
-                250px;padding-bottom:10px;padding-left:10px" v-model="time"
-                :time-picker="true"  enable-seconds></VueDatePicker>
-            </p> -->
+            <p>
+                <label for="id_homework">Type:</label>&nbsp;
+                <select v-model="type" name="homework"  id="id_homework" multiple="" style="display:inline-block;padding:1px;">
+                    <!-- <option v-for="type in types" :value="type" selected=""></option> -->
+                    <option >Homework</option>
+                    <option >Chore</option>
+                </select>
+            </p>
             <p>
                 <label for="id_tags">Tags:</label>
                 <select hidden name="tags"  id="id_tags" multiple="">
@@ -41,16 +34,16 @@
                     <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} options selected</span></template>
                 </multiselect>
             </p>
-            <!-- <p>
-                <label for="id_director">Director: </label>
-                <input type="text" name="director" value="The Wachowskis"
-                maxlength="200" required="" id="id_director">
-            </p> -->
             <p>
-                <label for="id_date">Date:  </label>
+                <label for="id_description">Description: </label>&nbsp;
+                <input type="text" name="description" value=""
+                maxlength="500" required="" id="id_description">
+            </p>
+            <p>
+                <label for="id_date">Date:  </label>&nbsp;
                 <input type="hidden" name="date" :value="get_date_string" required=""
                 id="id_date">
-                <VueDatePicker  v-model="date" format="yyyy-MM-dd" value="date" style="width:250px;display: inline-block;" :enable-time-picker="false"></VueDatePicker>
+                <VueDatePicker  v-model="date" format="yyyy-MM-dd HH:mm" value="date" style="width:250px;display: inline-block;" :min="new Date().toISOString().substr(0, 10)"></VueDatePicker>
             </p>
             <button type="submit" class="btn btn-primary"
             @click.prevent="submit_form_fetch"
@@ -58,6 +51,7 @@
                 Submit
             </button>
         <!-- </form> -->
+        {{ reminder_dico }}
     </div>
     <br><br>
 </template>
@@ -77,13 +71,18 @@ export default {
             csrf_token: window.ext_csrf_token,
             form: window.ext_form,
             reminder_dico: window.ext_reminder_dict,
+            title: this.reminder_dico,
     	    tag_list_source: (window.ext_tag_list != undefined) ? window.ext_tag_list: [],
+            homework_tag_source: [],
+            chore_tag_source: [],
             date: this.proceed('date'),
             submitting_form: false,
             form_error: [],
+            types: ['Homework', 'Chore'],
+            type: null,
 	    	form_updated: "",
-            update_bis_url: (window.ext_update_bis_url != undefined) ? window.ext_update_bis_url : null,
-            tag_list: (window.ext_reminder_dict != undefined) ? window.ext_reminder_dict.tags : [],
+            update_bis_url: window.ext_update_bis_url,
+            tag_list: (window.ext_reminder_dict != undefined && window.ext_reminder_dict != null) ? window.ext_reminder_dict.tags : [],
         }
     },
     methods: {
@@ -92,10 +91,10 @@ export default {
         	this.form_updated = ""
         	let formData = new FormData();
         	let form_data = {
-	            	'name': this.tag_dico.name,
-	            	'running_time': this.get_time_string,
-	            	'director': this.movie_dico.director,
-	            	'release_date': this.get_date_string,
+	            	'name': this.reminder_dico.name,
+                    'homework': this.reminder_dico.homework,
+	            	'description': this.reminder_dico.description,
+	            	'date': this.get_date_string,
         	}
         	for (var key in form_data) {
             		formData.append(key, form_data[key])
@@ -182,13 +181,13 @@ export default {
             return dato.toISOString().split('T')[0]
         },
         proceed(dot){
-            if (window.ext_movie_dict != undefined  ){
+            if (window.ext_reminder_dict != undefined  ){
                 if(dot == 'date'){
-                    console.log(this.datify(window.ext_movie_dict.release_date))
-                    return this.datify(window.ext_movie_dict.release_date)
+                    console.log(this.datify(window.ext_reminder_dict.date))
+                    return this.datify(window.ext_reminder_dict.date)
                 }
                 else if (dot == 'time'){
-                    console.log(this.timify(window.ext_movie_dict.running_time))
+                    console.log(this.timify(window.ext_reminder_dict.running_time))
                     return this.timify(window.ext_movie_dict.running_time)
                 }
             }
