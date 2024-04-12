@@ -8,7 +8,7 @@
 
 {% for reminder in object_list %}
     {% comment %} <a href="{% url 'reminders:reminder_detail' reminder.id %}">{{ reminder.name }}</a> {% endcomment %}
-    <a href="{% url 'reminders:reminder_detail_bis' reminder.id %}">{{reminder.name}}</a> - {{reminder.description}} <br/>
+    <a href="{% url 'reminders:reminder_detail' reminder.id %}">{{reminder.name}}</a> - {{reminder.description}} <br/>
 {% endfor %}
 
 {% comment %} {% else %}

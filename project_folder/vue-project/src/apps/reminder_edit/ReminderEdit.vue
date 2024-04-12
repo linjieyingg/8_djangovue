@@ -71,7 +71,7 @@ export default {
             csrf_token: window.ext_csrf_token,
             form: window.ext_form,
             reminder_dico: window.ext_reminder_dict,
-            title: this.reminder_dico.name,
+            title: window.ext_reminder_dict.name,
     	    tag_list_source: (window.ext_tag_list != undefined) ? window.ext_tag_list: [],
             homework_tag_source: [],
             chore_tag_source: [],

@@ -71,6 +71,24 @@ class ReminderCreateView(CreateView):
                 reminder_name=self.object.name))
         return response
     
+    def get_context_data(self, **kwargs):
+       context = super().get_context_data(**kwargs)
+    #    reminder_dico = model_to_dict(self.object)
+    #    reminder_dico["date"] = reminder_dico["date"].strftime(
+    #        "%Y-%m-%d"
+    #    )
+    #    tags = reminder_dico["tags"]
+    #    reminder_tag_list = []
+    #    for tag in tags:
+    #        reminder_tag_list.append({"id": tag.id, "name": tag.name})
+    #    reminder_dico["tags"] = reminder_tag_list
+    #    tag_list = list(Tag.objects.all().values())
+    #    context["reminder_dict"] = reminder_dico
+    #    context["tag_list"] = tag_list
+    #    import pdb;pdb.set_trace()
+    #    print("context", context)
+       return context
+    
     # comment the following line to show the error about not having an
     # success_url
     def get_success_url(self):
@@ -104,6 +122,7 @@ class ReminderUpdateView(UpdateView):
        tag_list = list(Tag.objects.all().values())
        context["reminder_dict"] = reminder_dico
        context["tag_list"] = tag_list
+       import pdb;pdb.set_trace()
        print("context", context)
        return context
     
