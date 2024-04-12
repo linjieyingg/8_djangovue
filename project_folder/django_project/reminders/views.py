@@ -29,7 +29,7 @@ class TagCreateView(CreateView):
         return response
 
     def get_success_url(self):
-    	return reverse_lazy("reminders:reminder_list", args=[self.object.id])
+    	return reverse_lazy("reminders:reminder_list")
 
 class TagUpdateView(UpdateView):
     model = Tag
