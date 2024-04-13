@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="{% url 'reminders:reminder_list' %}">Reminders</a><br/><br/>
+
+
+<a href="{% url 'reminders:tag_create' %}">New tag</a><br/><br/>
+{% for tag in object_list %}
+    <a href="{% url 'reminders:tag_detail' tag.id %}">{{ tag.name }}</a><br/>
+{% endfor %}
+{% endblock content %}

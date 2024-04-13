@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{ window }}
         <div v-if="form_error">
             <ul>
                 <li v-for="(error, index) in form_error">
@@ -89,6 +90,7 @@ export default {
     },
     data: function() {
         return {
+            window: window,
             csrf_token: window.ext_csrf_token,
             form: window.ext_form,
             reminder_dico: window.ext_reminder_dict,
