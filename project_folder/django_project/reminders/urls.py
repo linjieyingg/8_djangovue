@@ -5,6 +5,8 @@ from . import views
 app_name = "reminders"
 
 urlpatterns = [
+     path("tags/", views.TagListView.as_view(), name="tag_list"),
+    path("tags/<int:pk>", views.TagDetailView.as_view(), name="tag_detail"),
     path("tags/new", views.TagCreateView.as_view(), name="tag_create"),
     path("tags/update/<int:pk>", views.TagUpdateView.as_view(),
          name="tag_update"),

@@ -16,6 +16,12 @@ from .forms import ReminderForm
 
 ###################### TAGS ##########################
 
+class TagListView(ListView):
+    model = Tag
+    
+class TagDetailView(DetailView):
+    model = Tag
+
 class TagCreateView(CreateView):
     model = Tag
     fields = ['name', 'homework']
@@ -29,7 +35,7 @@ class TagCreateView(CreateView):
         return response
 
     def get_success_url(self):
-    	return reverse_lazy("reminders:reminder_list")
+    	return reverse_lazy("reminders:tag_detail", args=[self.object.id])
 
 class TagUpdateView(UpdateView):
     model = Tag
@@ -76,6 +82,12 @@ class ReminderCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy("reminders:reminder_detail", args=[self.object.id])
 
+    def get_context_data(self, **kwargs):
+       context = super().get_context_data(**kwargs)
+       tag_list = list(Tag.objects.all().values())
+       context["tag_list"] = tag_list
+       print("context", context)
+       return context
 
 class ReminderUpdateView(UpdateView):
     model = Reminder

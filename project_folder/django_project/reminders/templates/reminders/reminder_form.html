@@ -6,10 +6,12 @@
     <form method="post">    {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Save">
-    </form> 
-    <div id="app">
-        <app></app>
+    </form>  
+    <div id="appcreate">
+        <appcreate></appcreate>
     </div>
+    {{tag_list}}
+    {{csrf_token}}
 {% endblock content %}
 
 {% block js %}
@@ -18,6 +20,7 @@
         var ext_csrf_token = '{{ csrf_token }}'
         var ext_form = `{{form.as_p | safe}}`
         var ext_reminder_dict = {{ reminder_dict | safe }}
+        {% comment %} var ext_tag_list = {{ tag_list | json_script:"tag_list" }}  {% endcomment %}
         var ext_tag_list = {{ tag_list | safe }}
     </script>
     {% vite_hmr_client %}
