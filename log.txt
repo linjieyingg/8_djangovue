@@ -1,2 +1,6 @@
 4/9 - Jieying: Set up django + vue
 4/9 - Tyler: Database diagram
+
+4/11 - Jieying: Updated models, get request, separate create and edit forms
+
+4/12 - Jieying: Worked on create form
