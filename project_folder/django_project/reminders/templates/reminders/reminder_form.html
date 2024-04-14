@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 {% load django_vite %}
+{% block head %}
+    <script type="text/javascript">
+        ext_csrf_token="{{csrf_token}}"; {# double quotes are important#}
+        ext_tag_list = "{{ tag_list | safe }}";
+    </script>
+{% endblock head%}
 {% block content %}
 <a href="{% url 'reminders:reminder_list' %}">Reminders list</a><br/><br/>
 
-    <form method="post">    {% csrf_token %}
+    {% comment %} <form method="post">    {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Save">
-    </form>  
+    </form>   {% endcomment %}
     <div id="appcreate">
-        <appcreate></appcreate>
+        <div token="{{csrf_token}}"></div>
+        {% comment %} <appcreate></appcreate> {% endcomment %}
     </div>
     {{tag_list}}
     {{csrf_token}}
@@ -17,9 +24,9 @@
 {% block js %}
     {{ block.super }}
     <script>
-        var ext_csrf_token = '{{ csrf_token }}'
-        var ext_form = `{{form.as_p | safe}}`
-        var ext_reminder_dict = {{ reminder_dict | safe }}
+        var ext_csrf_token = "{{ csrf_token }}"
+        {% comment %} var ext_form = `{{form.as_p | safe}}` {% endcomment %}
+        {% comment %} var ext_reminder_dict = {{ reminder_dict | safe }} {% endcomment %}
         {% comment %} var ext_tag_list = {{ tag_list | json_script:"tag_list" }}  {% endcomment %}
         var ext_tag_list = {{ tag_list | safe }}
     </script>
