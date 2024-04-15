@@ -2,7 +2,10 @@
 4/9 - Tyler: Database diagram
 
 4/11 - Jieying: Updated models, get request, separate create and edit forms
+4/11 - Tyler: Edited models, view, and worked on edit
 
 4/12 - Jieying: Worked on create form
+4/12 - Tyler: Worked on edit form
 
 4/14 - Jieying: Finished create form, updated/fixed edit form
+4/14 - Tyler: Debugging
