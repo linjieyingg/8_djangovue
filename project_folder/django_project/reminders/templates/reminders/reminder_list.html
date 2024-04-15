@@ -10,10 +10,10 @@
 <div style='border:2px solid;'>
     <div style='padding:6px;'>
     {% comment %} <a href="{% url 'reminders:reminder_detail' reminder.id %}">{{ reminder.name }}</a> {% endcomment %}
-    <a href="{% url 'reminders:reminder_detail_bis' reminder.id %}">{{reminder.name}}</a> 
-    <ul style='list-style-type: none; padding-left:0; margin:0'>
+    <div style='border-bottom:2px solid'><a href="{% url 'reminders:reminder_detail_bis' reminder.id %}">{{reminder.name}}</a></div> 
+    <ul style='list-style-type: none; padding-left:0; padding-top:8px; margin:0'>
         {% for tag in reminder.tags.all %}
-        <li style='background-color:yellow; display:initial;padding:3px;border-radius:8px;' >{{tag}}</li>
+        <li style='background-color:#99b3ff; display:initial;padding:3px;border-radius:8px;' >{{tag}}</li>
         {% endfor %}
     </ul>
     {{reminder.description}} <br/>
