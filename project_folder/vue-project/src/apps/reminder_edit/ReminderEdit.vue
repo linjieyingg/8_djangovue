@@ -1,6 +1,5 @@
 <template>
     <div>
-        {{ window }}
         <div v-if="form_error">
             <ul>
                 <li v-for="(error, index) in form_error">
@@ -90,12 +89,12 @@ export default {
     },
     data: function() {
         return {
-            window: window,
-            csrf_token: window.ext_csrf_token,
-            form: window.ext_form,
-            reminder_dico: window.ext_reminder_dict,
-            title: this.reminder_dico,
-    	    tag_list_source: (window.ext_tag_list != undefined) ? window.ext_tag_list: [],
+            csrf_token: ext_csrf_token,
+            form: ext_form,
+            reminder_dico: ext_reminder_dict,
+            title: ext_reminder_dict,
+            tag_list_source: ext_reminder_dict.tags,
+    	    //tag_list_source: (window.ext_tag_list != undefined) ? window.ext_tag_list: [],
             homework_tag_source: [],
             chore_tag_source: [],
             date: this.proceed('date'),
@@ -105,11 +104,14 @@ export default {
             type: null,
 	    	form_updated: "",
             update_bis_url: window.ext_update_bis_url,
-            tag_list: (window.ext_reminder_dict != undefined && window.ext_reminder_dict != null) ? window.ext_reminder_dict.tags : [],
+            tag_list: ext_reminder_dict.tags,
+            // tag_list: (window.ext_reminder_dict != undefined && window.ext_reminder_dict != null) ? window.ext_reminder_dict.tags : [],
         }
     },
     methods: {
         submit_form_fetch(){
+            console.log(ext_reminder_dict)
+            console.log(this.tag_list)
         	this.form_error = []
         	this.form_updated = ""
         	let formData = new FormData();

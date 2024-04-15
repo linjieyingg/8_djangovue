@@ -49,10 +49,8 @@ class TagUpdateView(UpdateView):
                 tag_name=self.object.name))
         return response
     
-    # comment the following line to show the error about not having an
-    # success_url
-    # def get_success_url(self):
-    #     return reverse_lazy("reminders:tag_detail", args=[self.object.id])
+    def get_success_url(self):
+        return reverse_lazy("reminders:tag_detail", args=[self.object.id])
 
 
 ###################### Reminders ##########################
@@ -81,13 +79,6 @@ class ReminderCreateView(CreateView):
     # success_url
     def get_success_url(self):
         return reverse_lazy("reminders:reminder_detail", args=[self.object.id])
-
-    def get_context_data(self, **kwargs):
-       context = super().get_context_data(**kwargs)
-       tag_list = list(Tag.objects.all().values())
-       context["tag_list"] = tag_list
-       print("context", context)
-       return context
 
 class ReminderUpdateView(UpdateView):
     model = Reminder
@@ -122,7 +113,7 @@ class ReminderUpdateView(UpdateView):
     # comment the following line to show the error about not having an
     # success_url
     def get_success_url(self):
-        return reverse_lazy("remidners:reminder_detail", args=[self.object.id])
+        return reverse_lazy("reminders:reminder_detail", args=[self.object.id])
 
 class ReminderDeleteView(DeleteView):
     model = Reminder
