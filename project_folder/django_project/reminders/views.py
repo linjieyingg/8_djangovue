@@ -9,6 +9,8 @@ from django.forms.models import model_to_dict
 from django.views import View
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.http import JsonResponse
+import json
+
 
 from .models import Tag, Reminder
 from .forms import ReminderForm
@@ -24,7 +26,7 @@ class TagDetailView(DetailView):
 
 class TagCreateView(CreateView):
     model = Tag
-    fields = ['name', 'homework']
+    fields = ["name", "homework"]
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -39,7 +41,7 @@ class TagCreateView(CreateView):
 
 class TagUpdateView(UpdateView):
     model = Tag
-    fields = ['name', 'homework']
+    fields = ["name", "homework"]
     
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -65,7 +67,9 @@ class ReminderDetailView(DetailView):
 
 class ReminderCreateView(CreateView):
     model = Reminder
-    form_class = ReminderForm
+    # form_class = ReminderForm
+    fields = ["name", "description", "homework", "tags",  "date"]
+
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -80,10 +84,20 @@ class ReminderCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy("reminders:reminder_detail", args=[self.object.id])
 
+<<<<<<< HEAD
+=======
+    def get_context_data(self, **kwargs):
+       context = super().get_context_data(**kwargs)
+       tag_list = list(Tag.objects.all().values())
+       context["tag_list"] = json.dumps(tag_list)
+       print("context", context)
+       return context
+
+>>>>>>> main
 class ReminderUpdateView(UpdateView):
     model = Reminder
     template_name_suffix = '_edit'
-    fields = ['name', 'homework', 'tags', 'description', 'date']
+    fields = ["name", "description", "homework", "tags",  "date"]
     
     def form_valid(self, form):
         response = super().form_valid(form)

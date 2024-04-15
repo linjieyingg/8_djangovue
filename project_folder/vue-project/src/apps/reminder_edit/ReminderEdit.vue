@@ -19,10 +19,10 @@
             </p>
             <p>
                 <label for="id_homework">Type:</label>&nbsp;
-                <select v-model="type" name="homework"  id="id_homework" multiple="" style="display:inline-block;padding:1px;">
+                <select v-model="homework" name="homework"  id="id_homework" multiple="" style="display:inline-block;padding:1px;">
                     <!-- <option v-for="type in types" :value="type" selected=""></option> -->
-                    <option >Homework</option>
-                    <option >Chore</option>
+                    <option v-on:click="set(1)">Homework</option>
+                    <option v-on:click="set(2)">Chore</option>
                 </select>
             </p>
             <p>
@@ -102,6 +102,7 @@ export default {
             form_error: [],
             types: ['Homework', 'Chore'],
             type: null,
+            homework: true, 
 	    	form_updated: "",
             update_bis_url: window.ext_update_bis_url,
             tag_list: ext_reminder_dict.tags,
@@ -109,6 +110,12 @@ export default {
         }
     },
     methods: {
+        set(int){
+            if (int == 1)
+                this.homework = true;
+            else if (int == 2)
+                this.homework = false;
+        },  
         submit_form_fetch(){
             console.log(ext_reminder_dict)
             console.log(this.tag_list)

@@ -1,6 +1,5 @@
 <template>
     <div>
-        {{ tag_list_source }}
         <form method="post" class="form">
             <input type="hidden" name="csrfmiddlewaretoken" v-bind:value="csrf_token">
             <p>
@@ -10,10 +9,10 @@
             </p>
             <p>
                 <label for="id_homework">Type:</label>&nbsp;
-                <select v-model="type" name="homework"  id="id_homework" multiple="" style="display:inline-block;padding:1px;">
+                <select v-model="homework" name="homework"  id="id_homework" style="display:inline-block;padding:1px;">
                     <!-- <option v-for="type in types" :value="type" selected=""></option> -->
-                    <option >Homework</option>
-                    <option >Chore</option>
+                    <option :value="true" >Homework</option>
+                    <option :value="false" >Chore</option>
                 </select>
             </p>
             <p>
@@ -21,9 +20,16 @@
                 <select hidden name="tags"  id="id_tags" multiple="">
                     <option v-for="tag in tag_list" :value="tag.id" selected=""></option>
                 </select>
-                <multiselect v-model="tag_list" :options="tag_list_source" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Choose the tags" label="name" track-by="name" :preselect-first="true" style="display:inline-block;width: 300px;padding-bottom:10px;padding-left:10px">
-                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} options selected</span></template>
-                </multiselect>
+                <span v-if="homework">
+                    <multiselect v-model="tag_list" :options="tag_list_source.filter(check)" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Choose the tags" label="name" track-by="name"  style="display:inline-block;width: 300px;padding-bottom:10px;padding-left:10px">
+                        <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} options selected</span></template>
+                    </multiselect>
+                </span>
+                <span v-if=" homework == false">
+                    <multiselect v-model="tag_list" :options="tag_list_source.filter(checkc)" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Choose the tags" label="name" track-by="name"  style="display:inline-block;width: 300px;padding-bottom:10px;padding-left:10px">
+                        <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} options selected</span></template>
+                    </multiselect>
+                </span>
             </p>
             <p>
                 <label for="id_description">Description: </label>&nbsp;
@@ -61,10 +67,10 @@ import Multiselect from 'vue-multiselect'
                 description: null,
                 reminder_dico: [],
                 title: null,
-                // tag_list_source,
                 tag_list_source: (window.ext_tag_list != undefined ) ? window.ext_tag_list: [],
-                homework_tag_source: [],
-                chore_tag_source: [],
+                homework_tag_source: this.get_homework_tags,
+                homework: true,
+                chore_tag_source: this.get_chore_tags,
                 date: null,
                 types: ['Homework', 'Chore'],
                 type: null,
@@ -79,12 +85,29 @@ import Multiselect from 'vue-multiselect'
                 console.log('date', dato, dato.toISOString())
                 return dato.toISOString().split('T')[0]
             },
-            set(){
-                console.log(window.ext_csrf_token)
-                return window.ext_csrf_token
+            set(int){
+                if (int == 1)
+                    this.homework = true;
+                if (int == 2)
+                    this.homework = false;
+            },  
+            check(item){
+                return item.homework == true
             },
+            checkc(item){
+                return item.homework == false
+            },
+            
         },
         computed: {
+            get_homework_tags(){
+                this.homework_tag_source = this.tag_list_source.filter(this.check)
+                console.log(this.homework_tag_source)
+            },
+            get_chore_tags(){
+                this.chore_tag_source = this.tag_list_source.filter(this.checkc)
+                console.log(this.chore_tag_source)
+            },
             get_date_string() {
                 if (this.date == null) {
                     return ""
@@ -93,8 +116,9 @@ import Multiselect from 'vue-multiselect'
                 }
             },
         },
-        mounted() {
-            // this.tag_list_source = JSON.parse(document.getElementById('tag_list').textContent)
+        mounted(){
+            this.csrf_token=ext_csrf_token;  
+            this.tag_list_source= ext_tag_list;
         },
     }
 </script>
