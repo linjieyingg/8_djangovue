@@ -7,8 +7,20 @@
 {% comment %} {% if  reminder in object_list %} {% endcomment %}
 
 {% for reminder in object_list %}
+<div style='border:2px solid;'>
+    <div style='padding:6px;'>
     {% comment %} <a href="{% url 'reminders:reminder_detail' reminder.id %}">{{ reminder.name }}</a> {% endcomment %}
-    <a href="{% url 'reminders:reminder_detail_bis' reminder.id %}">{{reminder.name}}</a> - {{reminder.description}} <br/>
+    <a href="{% url 'reminders:reminder_detail_bis' reminder.id %}">{{reminder.name}}</a> 
+    <ul style='list-style-type: none; padding-left:0; margin:0'>
+        {% for tag in reminder.tags.all %}
+        <li style='background-color:yellow; display:initial;padding:3px;border-radius:8px;' >{{tag}}</li>
+        {% endfor %}
+    </ul>
+    {{reminder.description}} <br/>
+    {{reminder.date}}
+    
+</div>
+</div><br/>
 {% endfor %}
 
 {% comment %} {% else %}
