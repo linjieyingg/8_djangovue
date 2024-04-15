@@ -1,5 +1,5 @@
 import 'vite/modulepreload-polyfill';
 import { createApp } from 'vue';
-import App from './ReminderEdit.vue'
+import AppEdit from './ReminderEdit.vue'
 
-createApp(App).mount("#app")
+createApp(AppEdit).mount("#appedit")

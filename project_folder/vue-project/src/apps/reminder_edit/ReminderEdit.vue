@@ -82,7 +82,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import { resolveTransitionHooks } from 'vue';
 import Multiselect from 'vue-multiselect'
 export default {
-    name: 'App',
+    name: 'AppEdit',
     components: {
         VueDatePicker,
         Multiselect,
@@ -93,8 +93,8 @@ export default {
             form: ext_form,
             reminder_dico: ext_reminder_dict,
             title: ext_reminder_dict,
-            tag_list_source: ext_reminder_dict.tags,
-    	    //tag_list_source: (window.ext_tag_list != undefined) ? window.ext_tag_list: [],
+            //tag_list_source: ext_reminder_dict.tags,
+    	    tag_list_source: (window.ext_tag_list != undefined) ? window.ext_tag_list: [],
             homework_tag_source: [],
             chore_tag_source: [],
             date: this.proceed('date'),
@@ -105,8 +105,8 @@ export default {
             homework: true, 
 	    	form_updated: "",
             update_bis_url: window.ext_update_bis_url,
-            tag_list: ext_reminder_dict.tags,
-            // tag_list: (window.ext_reminder_dict != undefined && window.ext_reminder_dict != null) ? window.ext_reminder_dict.tags : [],
+            //tag_list: ext_reminder_dict.tags,
+            tag_list: (window.ext_reminder_dict != undefined && window.ext_reminder_dict != null) ? window.ext_reminder_dict.tags : [],
         }
     },
     methods: {
@@ -259,6 +259,11 @@ export default {
         //         // console.log(this.convert_time(this.time))
         //         return `${this.time.hours}:${this.time.minutes}:${this.time.seconds}`            }
         // },
+    },
+    mounted(){
+            this.csrf_token=ext_csrf_token;
+            this.reminder_dico=ext_reminder_dict;  
+            this.tag_list_source= ext_tag_list;
     },
 }
 </script>

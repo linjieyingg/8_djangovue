@@ -84,16 +84,6 @@ class ReminderCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy("reminders:reminder_detail", args=[self.object.id])
 
-<<<<<<< HEAD
-=======
-    def get_context_data(self, **kwargs):
-       context = super().get_context_data(**kwargs)
-       tag_list = list(Tag.objects.all().values())
-       context["tag_list"] = json.dumps(tag_list)
-       print("context", context)
-       return context
-
->>>>>>> main
 class ReminderUpdateView(UpdateView):
     model = Reminder
     template_name_suffix = '_edit'

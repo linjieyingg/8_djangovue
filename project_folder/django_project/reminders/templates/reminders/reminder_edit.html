@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 {% load django_vite %}
+{% block head %}
+    <script type="text/javascript">
+        ext_csrf_token="{{csrf_token}}"; {# double quotes are important#}
+        ext_tag_list = "{{ tag_list | safe }}";
+        ext_reminder_dict = {{ reminder_dict | safe }}
+        ext_update_bis_url = '{% url 'reminders:reminder_update_bis' object.id %}'
+    </script>
+{% endblock head%}
 {% block content %}
 <a href="{% url 'reminders:reminder_list' %}">Reminders list</a><br/><br/>
 
@@ -7,7 +15,8 @@
         {{ form.as_p }}
         <input type="submit" value="Save">
     </form>  {% endcomment %}
-    <div id="app">
+    <div id="appedit">
+        <div token="{{csrf_token}}"></div>
         <app></app>
     </div>
     {{reminder_dict}}
@@ -18,8 +27,8 @@
     <script>
         var ext_csrf_token = '{{ csrf_token }}'
         var ext_form = `{{form.as_p | safe}}`
-        var ext_reminder_dict = {'id': 3, 'name': 'blah', 'description': 'test', 'homework': false, 'date': '2020-04-04', 'tags': [{'id': 3, 'name': 'test'}]};
-        // var ext_reminder_dict = {{ reminder_dict | safe }}
+        //var ext_reminder_dict = {'id': 3, 'name': 'blah', 'description': 'test', 'homework': false, 'date': '2020-04-04', 'tags': [{'id': 3, 'name': 'test'}]};
+        var ext_reminder_dict = {{ reminder_dict | safe }}
         var ext_tag_list = {{ tag_list | safe }}
         var ext_update_bis_url = '{% url 'reminders:reminder_update_bis' object.id %}'
     </script>
