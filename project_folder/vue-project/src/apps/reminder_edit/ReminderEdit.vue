@@ -50,7 +50,7 @@
                 <label for="id_date">Date:  </label>&nbsp;
                 <input type="hidden" name="date" :value="get_date_string" required=""
                 id="id_date">
-                <VueDatePicker  v-model="date" format="yyyy-MM-dd HH:mm" value="date" style="width:250px;display: inline-block;" :min="new Date().toISOString().substr(0, 10)"></VueDatePicker>
+                <VueDatePicker  v-model="date" format="yyyy-MM-dd HH:mm" value="date" style="width:250px;display: inline-block;" :min-date='new Date()'></VueDatePicker>
             </p>
             <button type="submit" class="btn btn-primary"
             @click.prevent="submit_form_fetch"
