@@ -1,6 +1,5 @@
 <template>
     <div>
-        {{ tag_list_source }}
         <div v-if="form_error">
             <ul>
                 <li v-for="(error, index) in form_error">
@@ -11,7 +10,6 @@
         <div v-if="form_updated">
             {{ form_updated }}
         </div><br>
-        <!-- <form method="post" class="form"> -->
             <input type="hidden" name="csrfmiddlewaretoken" v-bind:value="csrf_token">
             <p>
                 <label for="id_name">Reminder Title: </label> &nbsp;
@@ -26,7 +24,7 @@
                     <option :value="false" >Chore</option>
                 </select>
             </p>
-            <!-- <p>
+            <p>
                 <label for="id_tags">Tags:</label>
                 <select hidden name="tags"  id="id_tags" multiple="">
                     <option v-for="tag in tag_list" :value="tag.id" selected=""></option>
@@ -41,7 +39,7 @@
                         <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} options selected</span></template>
                     </multiselect>
                 </span>
-            </p> -->
+            </p>
             <p>
                 <label for="id_description">Description: </label>&nbsp;
                 <input type="hidden" :value="description" name="description" value=""
@@ -59,8 +57,6 @@
             :disabled="submitting_form">
                 Submit
             </button>
-        <!-- </form> -->
-        {{ reminder_dico }}
     </div>
     <br><br>
 </template>
@@ -89,7 +85,7 @@ export default {
             form_error: [],
             types: ['Homework', 'Chore'],
             type: null,
-            homework: true, 
+            homework: ext_reminder_dict.homework, 
 	    	form_updated: "",
             description: ext_reminder_dict.description,
             update_bis_url: ext_update_bis_url,
@@ -97,6 +93,12 @@ export default {
         }
     },
     methods: {
+        check(item){
+            return item.homework == true
+        },
+        checkc(item){
+            return item.homework == false
+        },
         set(int){
             if (int == 1)
                 this.homework = true;

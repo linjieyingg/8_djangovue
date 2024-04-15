@@ -15,10 +15,8 @@
     </form>   {% endcomment %}
     <div id="appcreate">
         <div token="{{csrf_token}}"></div>
-        {% comment %} <appcreate></appcreate> {% endcomment %}
+        <appcreate></appcreate>
     </div>
-    {{tag_list}}
-    {{csrf_token}}
 {% endblock content %}
 
 {% block js %}
