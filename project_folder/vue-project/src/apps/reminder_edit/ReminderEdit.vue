@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{ tag_list_source }}
         <div v-if="form_error">
             <ul>
                 <li v-for="(error, index) in form_error">
@@ -19,46 +20,33 @@
             </p>
             <p>
                 <label for="id_homework">Type:</label>&nbsp;
-                <select v-model="homework" name="homework"  id="id_homework" multiple="" style="display:inline-block;padding:1px;">
+                <select v-model="homework" name="homework"  id="id_homework" style="display:inline-block;padding:1px;">
                     <!-- <option v-for="type in types" :value="type" selected=""></option> -->
-                    <option v-on:click="set(1)">Homework</option>
-                    <option v-on:click="set(2)">Chore</option>
+                    <option :value="true" >Homework</option>
+                    <option :value="false" >Chore</option>
                 </select>
             </p>
-            <p>
+            <!-- <p>
                 <label for="id_tags">Tags:</label>
                 <select hidden name="tags"  id="id_tags" multiple="">
                     <option v-for="tag in tag_list" :value="tag.id" selected=""></option>
                 </select>
-                <multiselect
-                    v-model="tag_list"
-                    :options="tag_list_source"
-                    :multiple="true"
-                    :close-on-select="false"
-                    :clear-on-select="false"
-                    :preserve-search="true"
-                    placeholder="Choose the tags"
-                    label="name"
-                    track-by="name"
-                    :preselect-first="true"
-                    style="
-                    display: inline-block;
-                    width: 300px;
-                    padding-bottom: 10px;
-                    padding-left: 10px;
-                    "
-                >
-                        <template slot="selection" slot-scope="{ values, search, isOpen }"
-                    ><span class="multiselect__single" v-if="values.length" v-show="!isOpen"
-                        >{{ values.length }} options selected</span
-                    ></template
-                    >
-                </multiselect>
-            </p>
+                <span v-if="homework">
+                    <multiselect v-model="tag_list" :options="tag_list_source.filter(check)" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Choose the tags" label="name" track-by="name"  style="display:inline-block;width: 300px;padding-bottom:10px;padding-left:10px">
+                        <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} options selected</span></template>
+                    </multiselect>
+                </span>
+                <span v-if=" homework == false">
+                    <multiselect v-model="tag_list" :options="tag_list_source.filter(checkc)" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Choose the tags" label="name" track-by="name"  style="display:inline-block;width: 300px;padding-bottom:10px;padding-left:10px">
+                        <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} options selected</span></template>
+                    </multiselect>
+                </span>
+            </p> -->
             <p>
                 <label for="id_description">Description: </label>&nbsp;
-                <input type="text" name="description" value=""
+                <input type="hidden" :value="description" name="description" value=""
                 maxlength="500" required="" id="id_description">
+                <textarea v-model="description" name="description" cols="50" maxlength="5000" rows="3"> </textarea>
             </p>
             <p>
                 <label for="id_date">Date:  </label>&nbsp;
@@ -92,11 +80,10 @@ export default {
             csrf_token: ext_csrf_token,
             form: ext_form,
             reminder_dico: ext_reminder_dict,
-            title: ext_reminder_dict,
-            //tag_list_source: ext_reminder_dict.tags,
-    	    tag_list_source: (window.ext_tag_list != undefined) ? window.ext_tag_list: [],
-            homework_tag_source: [],
-            chore_tag_source: [],
+            title: ext_reminder_dict.name,
+    	    tag_list_source: (ext_tag_list != undefined) ? ext_tag_list: [],
+            homework_tag_source: this.get_homework_tags,
+            chore_tag_source: this.get_chore_tags,
             date: this.proceed('date'),
             submitting_form: false,
             form_error: [],
@@ -104,9 +91,9 @@ export default {
             type: null,
             homework: true, 
 	    	form_updated: "",
-            update_bis_url: window.ext_update_bis_url,
-            //tag_list: ext_reminder_dict.tags,
-            tag_list: (window.ext_reminder_dict != undefined && window.ext_reminder_dict != null) ? window.ext_reminder_dict.tags : [],
+            description: ext_reminder_dict.description,
+            update_bis_url: ext_update_bis_url,
+            tag_list: (ext_reminder_dict.tags != undefined && ext_reminder_dict.tags != null) ? ext_reminder_dict.tags : [],
         }
     },
     methods: {
@@ -227,14 +214,6 @@ export default {
                 return null
             }
         },
-        // timify(string){
-        //     let split = string.split(':')
-        //     return {
-        //         'hours': split[0],
-        //         'minutes': split[1],
-        //         'seconds': split[2]
-        //     }
-        // },
         datify(string){
             let dat = new Date(string)
             const offset = dat.getTimezoneOffset()
@@ -244,6 +223,12 @@ export default {
         },
     },
     computed: {
+        get_homework_tags(){
+            this.homework_tag_source = this.tag_list_source.filter(this.check)
+        },
+        get_chore_tags(){
+            this.chore_tag_source = this.tag_list_source.filter(this.checkc)
+        },
         get_date_string() {
             if (this.date == null) {
                 return ""
@@ -251,19 +236,14 @@ export default {
                 return this.convert_date_to_string(this.date)
             }
         },
-        // get_time_string(){
-        //     if (this.time == null){
-        //         return ""
-        //     }
-        //     else {
-        //         // console.log(this.convert_time(this.time))
-        //         return `${this.time.hours}:${this.time.minutes}:${this.time.seconds}`            }
-        // },
+        
     },
     mounted(){
             this.csrf_token=ext_csrf_token;
             this.reminder_dico=ext_reminder_dict;  
             this.tag_list_source= ext_tag_list;
+            this.tag_list = JSON.parse(ext_reminder_dict.tags);
+            this.homework = ext_reminder_dict.homework;
     },
 }
 </script>

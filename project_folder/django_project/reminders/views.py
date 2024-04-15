@@ -70,7 +70,6 @@ class ReminderCreateView(CreateView):
     # form_class = ReminderForm
     fields = ["name", "description", "homework", "tags",  "date"]
 
-
     def form_valid(self, form):
         response = super().form_valid(form)
         messages.add_message(
@@ -83,6 +82,14 @@ class ReminderCreateView(CreateView):
     # success_url
     def get_success_url(self):
         return reverse_lazy("reminders:reminder_detail", args=[self.object.id])
+    
+    def get_context_data(self, **kwargs):
+       context = super().get_context_data(**kwargs)
+       tag_list = list(Tag.objects.all().values())
+       context["tag_list"] = tag_list
+       context["tag_list"] = json.dumps(tag_list)
+       print("context", context)
+       return context
 
 class ReminderUpdateView(UpdateView):
     model = Reminder
@@ -107,10 +114,10 @@ class ReminderUpdateView(UpdateView):
        reminder_tag_list = []
        for tag in tags:
            reminder_tag_list.append({"id": tag.id, "name": tag.name})
-       reminder_dico["tags"] = reminder_tag_list
+       reminder_dico["tags"] = json.dumps(reminder_tag_list)
        tag_list = list(Tag.objects.all().values())
-       context["reminder_dict"] = reminder_dico
-       context["tag_list"] = tag_list
+       context["reminder_dict"] = json.dumps(reminder_dico)
+       context["tag_list"] = json.dumps(tag_list)
        print("context", context)
        return context
     
