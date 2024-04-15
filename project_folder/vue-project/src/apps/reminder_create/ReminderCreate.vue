@@ -83,7 +83,7 @@ import Multiselect from 'vue-multiselect'
                 const offset = dato.getTimezoneOffset()
                 dato = new Date(dato.getTime() - (offset*60*1000))
                 console.log('date', dato, dato.toISOString())
-                return dato.toISOString().split('T')[0]
+                return dato.toISOString()
             },
             set(int){
                 if (int == 1)

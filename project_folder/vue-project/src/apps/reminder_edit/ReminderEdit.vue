@@ -199,17 +199,13 @@ export default {
             const offset = dato.getTimezoneOffset()
             dato = new Date(dato.getTime() - (offset*60*1000))
             console.log('date', dato, dato.toISOString())
-            return dato.toISOString().split('T')[0]
+            return dato.toISOString()
         },
         proceed(dot){
             if (window.ext_reminder_dict != undefined  ){
                 if(dot == 'date'){
                     console.log(this.datify(window.ext_reminder_dict.date))
                     return this.datify(window.ext_reminder_dict.date)
-                }
-                else if (dot == 'time'){
-                    console.log(this.timify(window.ext_reminder_dict.running_time))
-                    return this.timify(window.ext_movie_dict.running_time)
                 }
             }
             else{
