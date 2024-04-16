@@ -11,3 +11,4 @@
 4/14 - Tyler: Debugging
 
 4/15 - Jieying: Updated list html
+4/15 - Updated database diagram and tweaked create and edit
