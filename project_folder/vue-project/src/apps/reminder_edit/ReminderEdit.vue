@@ -112,9 +112,9 @@ export default {
         	this.form_updated = ""
         	let formData = new FormData();
         	let form_data = {
-	            	'name': this.reminder_dico.name,
-                    'homework': this.reminder_dico.homework,
-	            	'description': this.reminder_dico.description,
+	            	'name': this.title,
+                    'homework': this.homework,
+	            	'description': this.description,
 	            	'date': this.get_date_string,
         	}
         	for (var key in form_data) {
