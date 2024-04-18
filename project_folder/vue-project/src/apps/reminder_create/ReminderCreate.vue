@@ -41,11 +41,7 @@
                 <label for="id_date">Date:  </label>&nbsp;
                 <input type="hidden" name="date" :value="get_date_string" required=""
                 id="id_date">
-<<<<<<< HEAD
                 <VueDatePicker  v-model="date" format="yyyy-MM-dd HH:mm" value="date" style="width:250px;display: inline-block;" :min-date='new Date()'></VueDatePicker>
-=======
-                <VueDatePicker  v-model="date" format="yyyy-MM-dd HH:mm" value="date" style="width:250px;display: inline-block;" :min-date="new Date()"></VueDatePicker>
->>>>>>> 8a9261e944276bff9daaceb1c75a0d4867123024
             </p>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
